@@ -9,7 +9,7 @@ Library is written in Kotlin and contains some unit tests as examples of usage. 
 This is most easily done with a HTTP POST rather than using this library as follows:
 
 ```
-https://hubs.mozilla.com/api/v1/hubs
+POST https://hubs.mozilla.com/api/v1/hubs
 Content-Type: application/json
 Authorization bearer <auth-token>
 
