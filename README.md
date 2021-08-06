@@ -11,7 +11,7 @@ This is most easily done with a HTTP POST rather than using this library as foll
 ```
 POST https://hubs.mozilla.com/api/v1/hubs
 Content-Type: application/json
-Authorization bearer <auth-token>
+Authorization: bearer <auth-token>
 
 {
     "hub": {
