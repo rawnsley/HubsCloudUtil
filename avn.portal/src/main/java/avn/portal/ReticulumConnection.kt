@@ -2,10 +2,12 @@ package avn.portal
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.conscrypt.OpenSSLProvider
 import org.phoenixframework.Defaults
 import org.phoenixframework.Socket
 import java.io.Closeable
 import java.net.URL
+import java.security.Security
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
@@ -13,6 +15,12 @@ class ReticulumConnection(private val serverUrl : URL, val authToken : String) :
 
     companion object {
         private val httpClient: OkHttpClient by lazy {
+            // Use Conscrypt for TLS instead of default OpenJDK because of apparent
+            // incompatibilities with Erlang resulting in handshake_failure on the client side
+            // and malformed_handshake_data on the server side
+            // Ref https://square.github.io/okhttp//changelogs/changelog_3x/#version-3100
+            // Ref http://erlang.org/pipermail/erlang-questions/2020-March/099201.html
+            Security.insertProviderAt(OpenSSLProvider(), 1)
             OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
