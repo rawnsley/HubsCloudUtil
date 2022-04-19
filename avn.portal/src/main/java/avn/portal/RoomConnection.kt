@@ -97,7 +97,7 @@ class RoomConnection(private val hubId: String, private val reticulumServer: Ret
                     //            "session_id":"aaaaaa-bbbb-cccc-dddd-eeeeeeeee",
                     //            "vapid_public_key":"seiorghuesriguershgiesrughersiguhesrgirpesuhgriu"
                     //        }
-                    retResponse = m.payload["response"] as Map<*, *>
+                    retResponse = m.payload
                     retConnectionMutex.acquire()
                     joinMutex.release()
                 }
@@ -145,7 +145,7 @@ class RoomConnection(private val hubId: String, private val reticulumServer: Ret
             newHubChannel.join()
                 .receive("ok") { m ->
                     Log.info("RoomConnection $hubId hub channel joined: ${m.topic} ${m.event} ${m.status}")
-                    hubResponse = m.payload["response"] as Map<*, *>
+                    hubResponse = m.payload
                     hubConnectionMutex.acquire()
                     joinMutex.release()
                 }
