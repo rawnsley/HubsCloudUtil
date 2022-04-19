@@ -1,8 +1,9 @@
 package avn.portal
 
 import okhttp3.*
+import org.conscrypt.OpenSSLProvider
 import org.junit.Test
-
+import java.security.Security
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -15,6 +16,10 @@ class ScratchTest {
     @Test(timeout = 10000)
     fun scratch() {
         Log.info("Test started")
+
+        // Override OpenJDK with Conscrypt because of compatability issues
+        Security.insertProviderAt(OpenSSLProvider(), 1)
+
         val httpClient = OkHttpClient.Builder()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
